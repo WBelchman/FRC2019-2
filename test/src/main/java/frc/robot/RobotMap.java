@@ -42,12 +42,13 @@ public class RobotMap {
 	// public static Spark secondSpark = new Spark(1);
 
 	//Joysticks setup
-	public static Joystick leftJoystick = new Joystick(0);
-	public static Joystick rightJoystick = new Joystick(2);
-	public static XboxController xboxController = new XboxController(1);
+	public static Joystick leftJoystick = new Joystick(1);
+	public static Joystick rightJoystick = new Joystick(0);
+	public static XboxController xboxController = new XboxController(2);
 	
 	//Sensors setup
 	private static AnalogInput ai1 = new AnalogInput(3);
+	public static AnalogInput dist1 = new AnalogInput(1);
 	public static AnalogPotentiometer pot1 = new AnalogPotentiometer(ai1, 360, 30);
 	public static BuiltInAccelerometer Accel1 = new BuiltInAccelerometer();
 	public static ADXRS450_Gyro Gyro1 = new ADXRS450_Gyro();

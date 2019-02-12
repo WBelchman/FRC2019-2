@@ -5,7 +5,7 @@ import frc.robot.commands.LiftGrabber;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+//import edu.wpi.first.wpilibj.Solenoid; 
 /**
  *
  */
@@ -46,6 +46,38 @@ public class Grabber extends Subsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         setDefaultCommand(new LiftGrabber());
-    }
+	}
 }
+
+
+/*
+   //pneumatics claw     
+
+   
+   Solenoid clawopen = new Solenoid(0);
+   Solenoid clawclose= new Solenoid(1);
+   clawopen.set(true);
+
+if (xbox.getRawBumperpressed(hand.kright)==true  && clawopen.get()==false)
+{
+	clawopen.set(true);
+	clawclose.set(false);
+
+}
+else if (xbox.getRawBumperpressed(hand.kleft)==true && clawopen.get()==true)
+{
+	clawclose.set(true);
+	clawopen.set(false);
+}
+else
+{
+	clawopen.set(false);
+	clawclose.set(false);
+}
+*/
+
+//claw lifter
+
+//_ThirdTalon.set(xbox.getRawAxis(1));
+
 

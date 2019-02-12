@@ -140,10 +140,10 @@ public class OI {
 		 	"xbox A Button: toggle pneumatic compressor"
 		};
 		SmartDashboard.putStringArray("Button Information!", buttonInfo);
-		swapCompressor.whenPressed(new toggleCompressor());
-		raiseElevator.whenPressed(new autonomous(0));
-		lowerElevator.whenPressed(new autonomous(2));
-		toggleGrabber.whenPressed(new autonomous(1));
+		//swapCompressor.whenPressed(new toggleCompressor());
+		//raiseElevator.whenPressed(new autonomous(0));
+		//lowerElevator.whenPressed(new autonomous(2));
+		//toggleGrabber.whenPressed(new autonomous(1));
 	}
 	
 }

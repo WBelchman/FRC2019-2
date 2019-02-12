@@ -9,10 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.LiftGrabber;
 import frc.robot.commands.autonomous;
@@ -31,6 +32,9 @@ import edu.wpi.first.networktables.NetworkTableValue;
  * project.
  */
 public class Robot extends TimedRobot {
+	XboxController xbox = RobotMap.xboxController;
+	Joystick leftstick = RobotMap.leftJoystick;
+	Joystick rightstick = RobotMap.rightJoystick;
 	public static DriveTrain driveTrain;
 	public static Elevator elevator;
 	public static Grabber grabber;
@@ -39,6 +43,8 @@ public class Robot extends TimedRobot {
 	NetworkTableInstance inst = NetworkTableInstance.getDefault();
 	NetworkTable table = inst.getTable("datatable");
 	double degree = 0;
+	boolean Xon = false;
+	boolean toggle = false;
 	
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -61,7 +67,7 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		RobotMap.compressor.setClosedLoopControl(true);
 		RobotMap.Gyro1.calibrate();
-		//m_chooser.addDefault("Default autonomous", new autonomous(0));
+		//m_chooser.addDefault("Default autonomous", new ButtonSelect());
 		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
@@ -121,6 +127,7 @@ public class Robot extends TimedRobot {
 		degree = turn.getDouble();
 		System.out.println("OUTPUT == "+degree);
 		Robot.driveTrain.tankDrive(degree/5,degree/5);
+		SmartDashboard.putNumber("DistanceVal", RobotMap.dist1.getValue());
 		//Scheduler.getInstance().run();
 	}
 
@@ -136,14 +143,46 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		Scheduler.getInstance().add(new DriveWithJoysticks());
 	}
 
 	/**
 	 * This function is called periodically during operator control.
 	 */
 	@Override
-	public void teleopPeriodic() {
+	public void teleopPeriodic(){
+		if (xbox.getAButtonPressed()) {
+			Xon = false;
+			//Scheduler.getInstance().add(new autonomous(0));
+		}
+		if (xbox.getXButtonPressed() && Xon == false) {
+			Scheduler.getInstance().add(new autonomous(1));
+			Xon = true;
+		}
+		if (leftstick.getTriggerPressed() && toggle == false) {
+			Scheduler.getInstance().add(new autonomous(1));
+			toggle = true;
+		}
+		if (leftstick.getTriggerReleased() && toggle == true) {
+			Scheduler.getInstance().add(new autonomous(0));
+			toggle = false;
+		}
+		if (xbox.getBButtonPressed()) {
+			Scheduler.getInstance().add(new autonomous(2));
+		}
+		if (rightstick.getTriggerPressed() && toggle == false) {
+			Scheduler.getInstance().removeAll();
+			Scheduler.getInstance().add(new autonomous(2));
+			toggle = true;
+		}
+		if (rightstick.getTriggerReleased()) {
+			//Scheduler.getInstance().removeAll();
+			Scheduler.getInstance().add(new autonomous(0));
+			Scheduler.getInstance().add(new DriveWithJoysticks());
+			toggle = false;
+		}
 		Scheduler.getInstance().run();
+		
 	}
 
 	/**

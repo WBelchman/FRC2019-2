@@ -1,22 +1,26 @@
 package frc.robot.commands;
+
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.NetOutput;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableValue;
 
-public class autonomous extends CommandGroup {
+public class autonomous extends Command {
 
-    int setpoint = 0;
+	int setpointMid = 320;
+	int setpointWidth = 400;
     double error;
     double reading;
-    NetOutput obj;
+	NetOutput obj;
     
 	autonomous(){
 		requires(Robot.driveTrain);
@@ -31,34 +35,41 @@ public class autonomous extends CommandGroup {
 	Robot.driveTrain.stop();
 }
 
- public void execute(){
+ protected void execute(){
 	// Store networktables output
-	double[] output = new double[3];
-	output[0] = obj.get_output_of_selected_action();
+	double[] output = new double[2];
+	output = obj.get_output_of_selected_action();
 
-	// PID
-    double[] speeds = PID(output[0]);
-    System.out.println(speeds);
-	Robot.driveTrain.tankDrive(speeds[0], speeds[1]); //Turns each motor according to the error. 
+	if (output[0] == 0){
+		end();
+	}
+	else{
+		// PID
+		double[] speeds = PID(output[0]);
+		//System.out.println(speeds);
+		speeds[0] -= output[1] / 1000;
+		speeds[1] += output[1] / 1000;
+		Robot.driveTrain.tankDrive(speeds[0], speeds[1]); //Turns each motor according to the error.
+
+	} 
  }
 
 protected double[] PID(double output) {
     
 	double[] returnVals = new double[2];
 	reading = output; //Gets angle form Gyro
-	error = reading - setpoint; //Calculates error based on the predefined reference point
-
-	if (error < 0){
-		returnVals[0] = -0.5;
-		returnVals[1] = -0.5;
+	error = reading - setpointMid; //Calculates error based on the predefined reference point
+	double speed = 0.0008;
+	if (error > 0){
+	returnVals[1] = 0.25+speed*error;
+	returnVals[0] = -0.25;
 	}
-	else if (error > 0) {
-		returnVals[0] = 0.5;
-		returnVals[1] = 0.5;
-    }
-    else {
-        returnVals[0] = 0;
-        returnVals[1] = 0;
+	if (error < 0){
+	returnVals[0] = -0.25+speed*error;
+	returnVals[1] = 0.25;
+	}
+    if (error == 0) {
+		Robot.driveTrain.stop();
     }
 
 	return returnVals;
@@ -71,6 +82,7 @@ protected boolean isFinished() {
 
 // Called once after isFinished returns true
 protected void end() {
+	Robot.driveTrain.stop();
 }
 
 // Called when another command which requires one or more of the same

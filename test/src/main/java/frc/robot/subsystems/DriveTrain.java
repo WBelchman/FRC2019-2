@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrain extends Subsystem {
 	
 	public void initDefaultCommand() {
-		setDefaultCommand(new DriveWithJoysticks());
+		//setDefaultCommand(new DriveWithJoysticks());
 	}
 	
 	public void tankDrive(double leftSpeed, double rightSpeed) {
