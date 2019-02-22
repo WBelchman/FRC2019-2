@@ -1,69 +1,81 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.command.Subsystem;
-
-/**
- *
- */
 public class Elevator extends Subsystem {
+	OI oi;
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	public boolean isLowSwitchSet() {
-		if (RobotMap.limitSwitch2.get() == false) {
+		if (RobotMap.limitSwitchBottom.get() == true) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
-	
-	public boolean isTopSwitchSet() {
-		if (RobotMap.limitSwitch1.get() == true) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	public void moveUp() {
-		RobotMap.fourthTalon.set(1.0);
-	}
-	public void moveDown() {
-		RobotMap.fourthTalon.set(-1.0);
-	}
-	
-	public void moveElevator(double speed) {
-		if(speed>0) {
-			boolean top = isTopSwitchSet();
-			if(top) {
-				// do nothing
-			}
-			else {
-				RobotMap.fourthTalon.set(speed);
-			}
-		}
-		if(speed<0) {
-			boolean bot = isLowSwitchSet();
-			if(bot) {
-				// do nothing
-			}
-			else {
-				RobotMap.fourthTalon.set(speed);
-			}
-		}
-	}
-	
-	public void stop() {
-		RobotMap.fourthTalon.set(0.0);
-	}
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
-}
 
+	public boolean isTopSwitchSet() {
+		if (RobotMap.limitSwitchTop.get() == true) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void moveUp() {
+		// Moves the motors to grab ball
+		double speed = oi.getElevatorSpeed();
+		if (speed < 0.0) {
+			speed = 0.0;
+		}
+
+		if (RobotMap.limitSwitchTop.get() == true) {
+			RobotMap.Winch.set(0.0);
+		} else {
+			RobotMap.Winch.set(speed);
+		}
+	}
+
+	public void moveDown() {
+		double speed = oi.getElevatorSpeed();
+		System.out.println("in movedown()");
+		if (speed > 0.0) {
+			speed = 0.0;
+		}
+		if (RobotMap.limitSwitchBottom.get() == true) {
+			RobotMap.Winch.set(0.0);
+		} else {
+			RobotMap.Winch.set(speed);
+		}
+	}
+
+	public void moveElevator(double speed) {
+
+		if (speed > 0) {
+			boolean top = RobotMap.limitSwitchTop.get();
+			if (top == true) {
+				// do nothing
+			} else {
+				RobotMap.Winch.set(speed);
+			}
+		}
+		if (speed < 0) {
+			boolean bot = RobotMap.limitSwitchBottom.get();
+			if (bot == true) {
+				// do nothing
+			} else {
+				RobotMap.Winch.set(speed);
+			}
+		}
+	}
+
+	public void stop() {
+		RobotMap.Winch.set(0.0);
+	}
+
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MoveElevator());
+	}
+}
