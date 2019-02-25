@@ -22,11 +22,11 @@ public class RobotMap {
 	public static WPI_TalonSRX LeftMotor = new WPI_TalonSRX(1);
 	public static WPI_TalonSRX RightMotor = new WPI_TalonSRX(2);
 	public static WPI_TalonSRX Winch = new WPI_TalonSRX(3);
-	public static WPI_TalonSRX Shoulder = new WPI_TalonSRX(4);
 
 	// Spark motors setup
 	public static Spark rightGrabber = new Spark(0);
 	public static Spark leftGrabber = new Spark(1);
+	public static Spark shoulder = new Spark(2);
 
 	// Joysticks setup
 	public static Joystick leftJoystick = new Joystick(1);

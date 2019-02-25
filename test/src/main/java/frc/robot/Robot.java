@@ -21,6 +21,8 @@ import frc.robot.commands.autonomous;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Grabber;
+import frc.robot.subsystems.Shoulder;
+import frc.robot.commands.MoveShoulder;
 
 public class Robot extends TimedRobot {
 	XboxController xbox = RobotMap.xboxController;
@@ -29,6 +31,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain;
 	public static Elevator elevator;
 	public static Grabber grabber;
+	public static Shoulder shoulder;
 	public static OI m_oi;
 	boolean Xon = false;
 	boolean toggle = false;
@@ -41,6 +44,7 @@ public class Robot extends TimedRobot {
 		driveTrain = new DriveTrain();
 		elevator = new Elevator();
 		grabber = new Grabber();
+		shoulder = new Shoulder();
 		m_oi = new OI();
 		RobotMap.Gyro1.calibrate();
 		GreenLED_ON = false;
@@ -113,6 +117,7 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().add(new DriveWithJoysticks());
 		Scheduler.getInstance().add(new LiftGrabber());
 		Scheduler.getInstance().add(new MoveElevator());
+		Scheduler.getInstance().add(new MoveShoulder());
 	}
 
 	@Override

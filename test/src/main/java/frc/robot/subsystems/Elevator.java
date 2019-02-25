@@ -60,13 +60,16 @@ public class Elevator extends Subsystem {
 				RobotMap.Winch.set(speed);
 			}
 		}
-		if (speed < 0) {
+		else if (speed < 0) {
 			boolean bot = RobotMap.limitSwitchBottom.get();
 			if (bot == true) {
 				// do nothing
 			} else {
 				RobotMap.Winch.set(speed);
 			}
+		}
+		else {
+			RobotMap.Winch.set(0.0);
 		}
 	}
 

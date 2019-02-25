@@ -9,6 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Button;
 
 public class OI {
 
@@ -16,6 +18,21 @@ public class OI {
 	Joystick leftStick = RobotMap.leftJoystick;
 	Joystick rightStick = RobotMap.rightJoystick;
 	XboxController xbox = RobotMap.xboxController;
+
+	Button leftBumper = new JoystickButton(xbox, 5);
+	Button rightBumper = new JoystickButton(xbox, 6);
+
+	public int getBumpers(){
+		if (leftBumper.get()){
+			return 1;
+		}
+		else if (rightBumper.get()){	
+			return 2;
+		}
+		else{
+			return 0;
+		}
+	}
 
 	public double getElevatorSpeed() {
 		if (xbox.getRawAxis(5) > 0.1 || xbox.getRawAxis(5) < -0.1) {
