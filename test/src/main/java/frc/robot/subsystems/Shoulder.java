@@ -5,15 +5,19 @@ import frc.robot.RobotMap;
 
 public class Shoulder extends Subsystem {
 
+    //Moves the shoulder talon
     public void moveShoulder(int bumper) {
 
         if (bumper == 1) {
             RobotMap.shoulder.set(1.0);
-        } else if (bumper == 2){
+
+        } else if (bumper == 2) {
             RobotMap.shoulder.set(-1.0);
+
         }
         else{
             RobotMap.shoulder.set(0.0);
+            
         }
     }
 

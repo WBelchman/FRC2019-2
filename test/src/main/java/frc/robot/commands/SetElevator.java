@@ -14,12 +14,14 @@ public class SetElevator extends Command {
     }
 
     protected void initialize() {
+        
         if (UoD == true) {
             Robot.elevator.moveUp();
+
         } else {
             Robot.elevator.moveDown();
-        }
 
+        }
     }
 
     protected void execute() {
@@ -27,10 +29,13 @@ public class SetElevator extends Command {
     }
 
     protected boolean isFinished() {
+
         if (UoD == true) {
-            return Robot.elevator.isTopSwitchSet();
+            return RobotMap.limitSwitchTop.get();
+
         } else {
-            return Robot.elevator.isLowSwitchSet();
+            return RobotMap.limitSwitchBottom.get();
+
         }
     }
 

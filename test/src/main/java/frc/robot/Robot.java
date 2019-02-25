@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.CameraServer;
+//import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
-		CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 		driveTrain = new DriveTrain();
 		elevator = new Elevator();
 		grabber = new Grabber();
@@ -112,6 +112,7 @@ public class Robot extends TimedRobot {
 
 	}
 
+	//Adds commands to scheduler after leaving vision system control
 	void OICommands() {
 		Scheduler.getInstance().add(new autonomous(0));
 		Scheduler.getInstance().add(new DriveWithJoysticks());

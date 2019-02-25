@@ -7,22 +7,6 @@ import frc.robot.RobotMap;
 public class Elevator extends Subsystem {
 	OI oi;
 
-	public boolean isLowSwitchSet() {
-		if (RobotMap.limitSwitchBottom.get() == true) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean isTopSwitchSet() {
-		if (RobotMap.limitSwitchTop.get() == true) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public void moveUp() {
 		// Moves the motors to grab ball
 		double speed = oi.getElevatorSpeed();
@@ -38,8 +22,8 @@ public class Elevator extends Subsystem {
 	}
 
 	public void moveDown() {
+
 		double speed = oi.getElevatorSpeed();
-		System.out.println("in movedown()");
 		if (speed > 0.0) {
 			speed = 0.0;
 		}
@@ -50,8 +34,10 @@ public class Elevator extends Subsystem {
 		}
 	}
 
+	//Moves winch motor based on speed values from OI
 	public void moveElevator(double speed) {
 
+		//Going up
 		if (speed > 0) {
 			boolean top = RobotMap.limitSwitchTop.get();
 			if (top == true) {
@@ -60,6 +46,7 @@ public class Elevator extends Subsystem {
 				RobotMap.Winch.set(speed);
 			}
 		}
+		//Going down
 		else if (speed < 0) {
 			boolean bot = RobotMap.limitSwitchBottom.get();
 			if (bot == true) {
@@ -68,6 +55,7 @@ public class Elevator extends Subsystem {
 				RobotMap.Winch.set(speed);
 			}
 		}
+		//Not moving, stops motor
 		else {
 			RobotMap.Winch.set(0.0);
 		}

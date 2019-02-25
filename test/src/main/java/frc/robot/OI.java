@@ -22,6 +22,8 @@ public class OI {
 	Button leftBumper = new JoystickButton(xbox, 5);
 	Button rightBumper = new JoystickButton(xbox, 6);
 
+	//Gets the pressed xbox bumper (Used in MoveShoulder command)
+	//0 no bumper; 1 left bumper; 2 right bumper
 	public int getBumpers(){
 		if (leftBumper.get()){
 			return 1;
@@ -34,6 +36,8 @@ public class OI {
 		}
 	}
 
+	//Not the actual speed of the elevator
+	//Gets inputs from the xbox sticks
 	public double getElevatorSpeed() {
 		if (xbox.getRawAxis(5) > 0.1 || xbox.getRawAxis(5) < -0.1) {
 			return xbox.getRawAxis(5);
