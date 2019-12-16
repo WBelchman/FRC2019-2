@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-//import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
@@ -40,14 +40,14 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 
-		//CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 		driveTrain = new DriveTrain();
 		elevator = new Elevator();
 		grabber = new Grabber();
 		shoulder = new Shoulder();
 		m_oi = new OI();
-		RobotMap.Gyro1.calibrate();
-		GreenLED_ON = false;
+		//RobotMap.Gyro1.calibrate();
+		GreenLED_ON = false; 
 	}
 
 	@Override
@@ -61,18 +61,60 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		
+		// Init relay
+		//RobotMap.GreenLED.set(Relay.Value.kOn);
+		//RobotMap.GreenLED.set(Relay.Value.kReverse);
+
+		// Init OI
+		OICommands();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+			// Left trigger pressed, end OI commands and start tape script
+			/*if (leftstick.getTriggerPressed() && toggle == false) {
+				RobotMap.GreenLED.set(Relay.Value.kForward);
+				Scheduler.getInstance().removeAll();
+				Scheduler.getInstance().add(new autonomous(1));
+				toggle = true;
+			}
+	
+			// Right trigger pressed, end OI commands and start ball script
+			else if (rightstick.getTriggerPressed() && toggle == false) {
+				Scheduler.getInstance().removeAll();
+				Scheduler.getInstance().add(new autonomous(2));
+				toggle = true;
+			}
+	
+			// Both triggers released, end autoomous scripts and start OI scripts
+			if (leftstick.getTriggerReleased() && rightstick.getTriggerReleased() && toggle) {
+				RobotMap.GreenLED.set(Relay.Value.kReverse);
+				Scheduler.getInstance().add(new autonomous(0));
+				OICommands();
+				toggle = false;
+			} 
+			*/
+	
+			Scheduler.getInstance().run();
+	
+		}
+	
+		//Adds commands to scheduler after leaving vision system control
+	void OICommands() {
+		Scheduler.getInstance().add(new autonomous(0));
+		Scheduler.getInstance().add(new DriveWithJoysticks());
+		Scheduler.getInstance().add(new LiftGrabber());
+		Scheduler.getInstance().add(new MoveElevator());
+		Scheduler.getInstance().add(new MoveShoulder());
 	}
 
 	@Override
 	public void teleopInit() {
 
 		// Init relay
-		RobotMap.GreenLED.set(Relay.Value.kOn);
-		RobotMap.GreenLED.set(Relay.Value.kReverse);
+		//RobotMap.GreenLED.set(Relay.Value.kOn);
+		//RobotMap.GreenLED.set(Relay.Value.kForward);
 
 		// Init OI
 		OICommands();
@@ -101,7 +143,6 @@ public class Robot extends TimedRobot {
 
 		// Both triggers released, end autoomous scripts and start OI scripts
 		if (leftstick.getTriggerReleased() && rightstick.getTriggerReleased() && toggle) {
-			DriverStation.reportError("TRIGGER", false);
 			RobotMap.GreenLED.set(Relay.Value.kReverse);
 			Scheduler.getInstance().add(new autonomous(0));
 			OICommands();
@@ -112,14 +153,6 @@ public class Robot extends TimedRobot {
 
 	}
 
-	//Adds commands to scheduler after leaving vision system control
-	void OICommands() {
-		Scheduler.getInstance().add(new autonomous(0));
-		Scheduler.getInstance().add(new DriveWithJoysticks());
-		Scheduler.getInstance().add(new LiftGrabber());
-		Scheduler.getInstance().add(new MoveElevator());
-		Scheduler.getInstance().add(new MoveShoulder());
-	}
 
 	@Override
 	public void testPeriodic() {

@@ -12,7 +12,7 @@ public class DriveTrain extends Subsystem {
 	public void tankDrive(double leftSpeed, double rightSpeed) {
 		// Drives the motors
 		RobotMap.LeftMotor.set(leftSpeed);
-		RobotMap.RightMotor.set(rightSpeed);
+		RobotMap.RightMotor.set(rightSpeed*-0.95);
 	}
 
 	public void stop() {

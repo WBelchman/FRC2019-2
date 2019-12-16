@@ -7,7 +7,7 @@ public class Grabber extends Subsystem {
 
 	public void moveGrabber(double speed) {
 		RobotMap.leftGrabber.set(speed);
-		RobotMap.rightGrabber.set(1.0 * speed);
+		RobotMap.rightGrabber.set(-1.0 * speed);
 	}
 
 	public void initDefaultCommand() {

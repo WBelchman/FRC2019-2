@@ -9,7 +9,7 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
@@ -34,7 +34,7 @@ public class RobotMap {
 	public static XboxController xboxController = new XboxController(2);
 
 	// Sensors setup
-	public static ADXRS450_Gyro Gyro1 = new ADXRS450_Gyro();
+	//public static ADXRS450_Gyro Gyro1 = new ADXRS450_Gyro();
 
 	// Limit Switches
 	public static DigitalInput limitSwitchTop = new DigitalInput(0);

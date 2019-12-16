@@ -56,9 +56,12 @@ public class OI {
 
 	public double getLeftSpeed() {
 		if (leftStick.getY() > 0.1 || leftStick.getY() < -0.1) {
-			return leftStick.getY();
+			return -1.0*leftStick.getY();
 		} else {
 			return 0.0;
+
+
+			
 		}
 	}
 

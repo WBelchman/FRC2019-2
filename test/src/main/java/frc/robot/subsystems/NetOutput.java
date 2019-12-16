@@ -22,12 +22,7 @@ public class NetOutput extends Subsystem {
 
 		// Kill all processes and start selected script
 		chooser(input);
-		// Wait for startup
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+
 	}
 
 	public double[] get_output_of_selected_action() {
